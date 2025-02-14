@@ -13,7 +13,7 @@ The following sections provide a step-by-step guide for setting up the build env
 First, clone this repository onto your development machine:
 
 ```Shell
-git clone https://github.com/sergioprado/build-signed-imx8m-bootloader.git -b scarthgap-7.x.y
+git clone https://github.com/toradex/build-signed-imx8m-bootloader.git -b scarthgap-7.x.y
 ```
 
 Go to the directory of the repository:

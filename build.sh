@@ -92,7 +92,7 @@ fi
 
 # setup meta-secure-boot-imx8m
 run rm -rf ../layers/meta-secure-boot-imx8m
-run git clone https://github.com/sergioprado/meta-secure-boot-imx8m.git -b "$BRANCH" ../layers/meta-secure-boot-imx8m
+run git clone https://github.com/toradex/meta-secure-boot-imx8m.git -b "$BRANCH" ../layers/meta-secure-boot-imx8m
 if ! grep -q meta-secure-boot-imx8m conf/bblayers.conf; then
     echo 'BBLAYERS += "${TOPDIR}/../layers/meta-secure-boot-imx8m"' >> conf/bblayers.conf
 fi
