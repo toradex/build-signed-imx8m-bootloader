@@ -104,6 +104,11 @@ if [ -e "$OECONF" ]; then
     echo >> conf/auto.conf && cat "$OECONF" >> conf/auto.conf
 fi
 
+# use /sstate-cache-hotstart for cache if present and non-empty
+if [ "$(ls -A /sstate-cache-hotstart)" ]; then
+    echo 'SSTATE_DIR = "/sstate-cache-hotstart"' >> conf/auto.conf
+fi
+
 # setup keys directory
 rm -rf keys
 ln -s "$KEYSDIR" keys

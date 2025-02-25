@@ -110,6 +110,34 @@ To build it for iMX8MM, change the `MACHINE` variable to `verdin-imx8mm`.
 
 The first build might take some time, as a toolchain will also be built before building U-Boot, OP-TEE and all other bootloader artifacts to create the final boot container for the target platform.
 
+### Using the sstate cache to speed up builds
+
+As mentioned above, the first build can take quite some time as Yocto builds all the toolchains. Yocto caches aggressively, however, so subsequent builds will be very fast.
+
+The cache is stored in `build/sstate-cache`. You can re-use this cache in subsequent builds, on the same machine or elsewhere.
+
+To do this, you must add a config line to tell the build where to look. This can be added to `build/conf/local.conf` for a single build.
+
+```
+SSTATE_DIR = "/shared/sstate-cache-dir"
+```
+
+The configured path must be the path inside the container; you would normally bind-mount it to the appropriate place. For example:
+
+```Shell
+docker run --rm -it -v ./build:/build -v /path/to/local-sstate-dir:/shared/sstate-cache-dir -e MACHINE=verdin-imx8mp toradex/build-signed-imx8m-bootloader build.sh
+```
+
+### Creating a container with a built-in cache
+
+Once you have done at least one build, you can create a new container with a hot cache already inside:
+
+```
+docker build -t toradex/build-signed-imx8m-bootloader-hotcache -f Dockerfile.hotcache
+```
+
+The container's start script will configure bitbake to use the directory `/sstate-cache-hotstart` as its sstate cache, if present.
+
 ## Flash the bootloader to the SoM
 
 After the build process completes, the signed bootloader will be located in the build directory:
